@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Commercial Diving Operations on Melon Wiki</title>
+    <link>https://wiki.melon.org/commercial-diving/</link>
+    <description>Recent content in Commercial Diving Operations on Melon Wiki</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://wiki.melon.org/commercial-diving/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dive Logs &amp; Operational Records</title>
+      <link>https://wiki.melon.org/commercial-diving/dive-logs/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://wiki.melon.org/commercial-diving/dive-logs/</guid>
+      <description>Traceability, auditability, and operational documentation requirements for dive operations</description>
+    </item>
+    <item>
+      <title>Dive Planning &amp; Risk Assessment</title>
+      <link>https://wiki.melon.org/commercial-diving/dive-planning/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://wiki.melon.org/commercial-diving/dive-planning/</guid>
+      <description>Operational frameworks for dive planning, risk assessment, and execution</description>
+    </item>
+    <item>
+      <title>Emergency Response Frameworks</title>
+      <link>https://wiki.melon.org/commercial-diving/emergency-frameworks/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://wiki.melon.org/commercial-diving/emergency-frameworks/</guid>
+      <description>Operational frameworks for emergency response, not step-by-step rescue procedures</description>
+    </item>
+    <item>
+      <title>Surface-Supplied Diving Systems</title>
+      <link>https://wiki.melon.org/commercial-diving/surface-supplied/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://wiki.melon.org/commercial-diving/surface-supplied/</guid>
+      <description>Equipment, procedures, and operational considerations for surface-supplied diving operations</description>
+    </item>
+  </channel>
+</rss>

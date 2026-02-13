@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Swarm &amp; Networked Systems on Melon Wiki</title>
+    <link>https://wiki.melon.org/swarm-systems/</link>
+    <description>Recent content in Swarm &amp; Networked Systems on Melon Wiki</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://wiki.melon.org/swarm-systems/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Communication Systems</title>
+      <link>https://wiki.melon.org/swarm-systems/communications/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://wiki.melon.org/swarm-systems/communications/</guid>
+      <description>Acoustic, RF, and hybrid communication systems for subsea operations</description>
+    </item>
+  </channel>
+</rss>

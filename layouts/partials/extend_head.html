@@ -1,0 +1,70 @@
+{{/* Extended SEO — loaded by PaperMod after its own head partial */}}
+
+{{/* Content-type hints for search engines */}}
+<meta name="subject" content="{{ .Description | default site.Params.description }}">
+<meta name="coverage" content="Worldwide">
+<meta name="distribution" content="Global">
+<meta name="rating" content="General">
+
+{{/* DNS prefetch for external resources */}}
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+{{/* Homepage: WebSite schema with SearchAction (complements PaperMod's Organization schema) */}}
+{{- if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.Title }}",
+  "url": "{{ site.BaseURL }}",
+  "description": "{{ site.Params.description }}",
+  "inLanguage": "en-US",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ site.BaseURL }}search/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{{- end }}
+
+{{/* Section pages: CollectionPage with ItemList (complements PaperMod's BreadcrumbList) */}}
+{{- if .IsSection }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ .Title }}",
+  "url": "{{ .Permalink }}",
+  "description": "{{ .Description | default site.Params.description }}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "{{ site.Title }}",
+    "url": "{{ site.BaseURL }}"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": {{ len .Pages }},
+    "itemListElement": [
+      {{- range $i, $page := .Pages }}
+      {{- if $i }},{{ end }}
+      {
+        "@type": "ListItem",
+        "position": {{ add $i 1 }},
+        "url": "{{ $page.Permalink }}",
+        "name": "{{ $page.Title }}"
+      }
+      {{- end }}
+    ]
+  }
+}
+</script>
+{{- end }}
+
+{{/* Article pages: add articleSection to complement PaperMod's BlogPosting + BreadcrumbList */}}
+{{- if and .IsPage (not .IsHome) }}
+{{- if .Parent }}
+<meta name="article:section" content="{{ .Parent.Title }}">
+{{- end }}
+{{- end }}

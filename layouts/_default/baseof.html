@@ -1,0 +1,329 @@
+{{- if lt hugo.Version "0.146.0" }}
+{{- errorf "=> hugo v0.146.0 or greater is required for hugo-PaperMod to build " }}
+{{- end -}}
+
+<!DOCTYPE html>
+{{- $theme := site.Params.defaultTheme | default "auto" }}
+{{- if eq $theme "dark" }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="dark">
+{{- else if eq $theme "light" }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="light">
+{{- else }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="auto">
+{{- end }}
+
+<head>
+    {{- partial "head.html" . }}
+
+    {{/* Google Fonts: Inter + JetBrains Mono */}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    {{- $customCSS := resources.Get "css/custom.css" }}
+    {{- if $customCSS }}
+    {{- $customCSS = $customCSS | minify }}
+    <link rel="stylesheet" href="{{ $customCSS.RelPermalink }}">
+    {{- end }}
+</head>
+
+{{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) }}
+<body class="list" id="top">
+{{- else }}
+<body id="top">
+{{- end }}
+    {{- if (fileExists "layouts/partials/header-custom.html") }}
+    {{- partial "header-custom.html" . }}
+    {{- else }}
+    {{ partialCached "header.html" . .Page -}}
+    {{- end }}
+
+    {{- partial "sidebar.html" . }}
+
+    <main class="main">
+        <div class="content-wrapper">
+            <div class="content-inner">
+                <div class="content">
+                    {{- block "main" . }}{{ end }}
+                </div>
+
+                {{/* Right-side TOC for single pages */}}
+                {{- if and (eq .Kind "page") (.Param "ShowToc") (not (eq .Layout "archives")) (not (eq .Layout "search")) }}
+                {{- if .TableOfContents }}
+                <aside class="toc-sidebar" id="toc-sidebar">
+                    <div class="toc-sidebar-title">On this page</div>
+                    {{ .TableOfContents }}
+                </aside>
+                {{- end }}
+                {{- end }}
+            </div>
+        </div>
+    </main>
+
+    {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") -}}
+
+    {{/* Load Fuse.js from PaperMod's assets for search */}}
+    {{- $fuse := resources.Get "js/fuse.basic.min.js" }}
+    {{- if $fuse }}
+    <script src="{{ $fuse.RelPermalink }}" defer></script>
+    {{- end }}
+
+    <script>
+        // ── Theme Toggle Icon Sync ──
+        // PaperMod's footer.html handles the actual toggle click.
+        // We just keep the moon/sun icons in sync via a MutationObserver.
+        (function() {
+            var html = document.documentElement;
+
+            function updateIcons() {
+                var isDark = html.getAttribute('data-theme') === 'dark';
+                var moon = document.getElementById('moon');
+                var sun = document.getElementById('sun');
+                if (moon) moon.style.display = isDark ? 'none' : 'block';
+                if (sun) sun.style.display = isDark ? 'block' : 'none';
+            }
+
+            // Update icons whenever data-theme changes (from PaperMod's toggle or head script)
+            new MutationObserver(function() { updateIcons(); })
+                .observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+
+            // Initial sync
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateIcons);
+            } else {
+                updateIcons();
+            }
+        })();
+
+        // ── Mobile Menu ──
+        document.addEventListener('DOMContentLoaded', function() {
+            var menuToggle = document.getElementById('menu-toggle');
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebar-overlay');
+
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('open');
+                    if (overlay) overlay.classList.toggle('open');
+                });
+                if (overlay) {
+                    overlay.addEventListener('click', function() {
+                        sidebar.classList.remove('open');
+                        overlay.classList.remove('open');
+                    });
+                }
+            }
+        });
+
+        // ── Cmd+K Search Modal with Fuse.js ──
+        document.addEventListener('DOMContentLoaded', function() {
+            var modalOverlay = document.getElementById('search-modal-overlay');
+            var modalInput = document.getElementById('search-modal-input');
+            var modalResults = document.getElementById('search-modal-results');
+            var searchTrigger = document.getElementById('search-trigger');
+            var fuseInstance = null;
+            var indexLoaded = false;
+
+            function loadSearchIndex(callback) {
+                if (indexLoaded) { callback(); return; }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data && typeof Fuse !== 'undefined') {
+                            fuseInstance = new Fuse(data, {
+                                isCaseSensitive: false,
+                                shouldSort: true,
+                                threshold: 0.4,
+                                distance: 1000,
+                                ignoreLocation: true,
+                                keys: ['title', 'permalink', 'summary', 'content']
+                            });
+                            indexLoaded = true;
+                        }
+                        callback();
+                    }
+                };
+                xhr.open('GET', '/index.json');
+                xhr.send();
+            }
+
+            function renderResults(query) {
+                if (!modalResults) return;
+                if (!query || !fuseInstance) {
+                    modalResults.innerHTML = '';
+                    return;
+                }
+                var results = fuseInstance.search(query, { limit: 10 });
+                if (results.length === 0) {
+                    modalResults.innerHTML = '<div style="padding:24px 12px;text-align:center;color:var(--mw-text-tertiary);font-size:0.875rem;">No results found.</div>';
+                    return;
+                }
+                var html = '';
+                results.forEach(function(r) {
+                    var item = r.item;
+                    var snippet = '';
+                    if (item.summary) {
+                        snippet = item.summary.substring(0, 120);
+                        if (item.summary.length > 120) snippet += '...';
+                    }
+                    html += '<a href="' + item.permalink + '" class="search-result-item">' +
+                        '<div class="search-result-title">' + escapeHtml(item.title) + '</div>' +
+                        (snippet ? '<div class="search-result-snippet">' + escapeHtml(snippet) + '</div>' : '') +
+                        '</a>';
+                });
+                modalResults.innerHTML = html;
+            }
+
+            function escapeHtml(str) {
+                var div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            function openSearch() {
+                if (!modalOverlay) return;
+                modalOverlay.classList.add('open');
+                if (modalInput) {
+                    modalInput.value = '';
+                    modalInput.focus();
+                }
+                if (modalResults) modalResults.innerHTML = '';
+                // Lazy-load the search index on first open
+                loadSearchIndex(function() {});
+            }
+
+            function closeSearch() {
+                if (!modalOverlay) return;
+                modalOverlay.classList.remove('open');
+            }
+
+            // Open via trigger button
+            if (searchTrigger) {
+                searchTrigger.addEventListener('click', openSearch);
+            }
+
+            // Open via Cmd+K / Ctrl+K
+            document.addEventListener('keydown', function(e) {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    if (modalOverlay && modalOverlay.classList.contains('open')) {
+                        closeSearch();
+                    } else {
+                        openSearch();
+                    }
+                }
+                if (e.key === 'Escape') {
+                    closeSearch();
+                }
+            });
+
+            // Close on overlay click
+            if (modalOverlay) {
+                modalOverlay.addEventListener('click', function(e) {
+                    if (e.target === modalOverlay) closeSearch();
+                });
+            }
+
+            // Live search on keyup
+            if (modalInput) {
+                modalInput.addEventListener('input', function() {
+                    var query = modalInput.value.trim();
+                    if (!indexLoaded) {
+                        loadSearchIndex(function() { renderResults(query); });
+                    } else {
+                        renderResults(query);
+                    }
+                });
+
+                // Navigate to first result on Enter
+                modalInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        var firstLink = modalResults && modalResults.querySelector('a');
+                        if (firstLink) {
+                            e.preventDefault();
+                            window.location.href = firstLink.getAttribute('href');
+                        }
+                    }
+                });
+            }
+        });
+
+        // ── Sidebar Collapse/Expand ──
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.sidebar-section-header').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var section = btn.closest('.sidebar-section');
+                    if (section) {
+                        section.classList.toggle('expanded');
+                    }
+                });
+            });
+        });
+
+        // ── Blockquote Callout Classification ──
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('blockquote').forEach(function(bq) {
+                var first = bq.querySelector('p');
+                if (!first) return;
+                var text = first.innerHTML;
+                if (text.match(/^<strong>Note:?<\/strong>/i) || text.match(/^<strong>Info:?<\/strong>/i)) {
+                    bq.classList.add('callout-info');
+                } else if (text.match(/^<strong>Warning:?<\/strong>/i) || text.match(/^<strong>Caution:?<\/strong>/i)) {
+                    bq.classList.add('callout-warning');
+                } else if (text.match(/^<strong>Danger:?<\/strong>/i) || text.match(/^<strong>Critical:?<\/strong>/i)) {
+                    bq.classList.add('callout-danger');
+                } else if (text.match(/^<strong>Tip:?<\/strong>/i) || text.match(/^<strong>Success:?<\/strong>/i)) {
+                    bq.classList.add('callout-success');
+                }
+            });
+        });
+
+        // ── TOC Scroll-Spy ──
+        document.addEventListener('DOMContentLoaded', function() {
+            var tocSidebar = document.getElementById('toc-sidebar');
+            if (!tocSidebar) return;
+
+            var tocLinks = tocSidebar.querySelectorAll('a[href^="#"]');
+            if (!tocLinks.length) return;
+
+            var headings = [];
+            tocLinks.forEach(function(link) {
+                var id = decodeURIComponent(link.getAttribute('href').slice(1));
+                var heading = document.getElementById(id);
+                if (heading) headings.push({ el: heading, link: link });
+            });
+
+            function updateActive() {
+                var scrollTop = window.scrollY + 100;
+                var active = null;
+
+                for (var i = headings.length - 1; i >= 0; i--) {
+                    if (headings[i].el.offsetTop <= scrollTop) {
+                        active = headings[i];
+                        break;
+                    }
+                }
+
+                tocLinks.forEach(function(link) { link.classList.remove('active'); });
+                if (active) active.link.classList.add('active');
+            }
+
+            var ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        updateActive();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            updateActive();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+{{- $currentPage := . }}
+<nav class="sidebar" id="sidebar">
+    <ul class="sidebar-nav">
+        {{- range site.Menus.main }}
+        {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | relLangURL }}
+        {{- $page_url := $currentPage.RelPermalink }}
+        {{- $section := site.GetPage .URL }}
+        {{- $is_active := or (eq $menu_item_url $page_url) (and $section (hasPrefix $page_url $section.RelPermalink) (ne $menu_item_url ("/" | relLangURL))) }}
+        {{- $pages := slice }}
+        {{- if $section }}
+            {{- $pages = where $section.Pages "Kind" "page" | first 20 }}
+        {{- end }}
+        {{- $has_children := gt (len $pages) 0 }}
+
+        {{- if $has_children }}
+        <li class="sidebar-section{{ if $is_active }} expanded{{ end }}">
+            <button class="sidebar-section-header{{ if $is_active }} active{{ end }}" aria-expanded="{{ if $is_active }}true{{ else }}false{{ end }}">
+                <span class="sidebar-section-icon">
+                    {{- if eq .Identifier "home" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    {{- else if eq .Identifier "diving" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 22V8"></path><path d="m5 12 7-4 7 4"></path></svg>
+                    {{- else if eq .Identifier "robotics" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><path d="M15 2v2"></path><path d="M15 20v2"></path><path d="M2 15h2"></path><path d="M2 9h2"></path><path d="M20 15h2"></path><path d="M20 9h2"></path><path d="M9 2v2"></path><path d="M9 20v2"></path></svg>
+                    {{- else if eq .Identifier "data" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg>
+                    {{- else if eq .Identifier "safety" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    {{- else if eq .Identifier "swarm" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="5" r="2"></circle><circle cx="19" cy="19" r="2"></circle><circle cx="5" cy="19" r="2"></circle><path d="M14.5 10 17 7"></path><path d="m9.5 10-2.5-3"></path><path d="m14.5 14 2.5 3"></path><path d="m9.5 14-2.5 3"></path></svg>
+                    {{- else if eq .Identifier "simulation" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                    {{- else if eq .Identifier "standards" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    {{- else if eq .Identifier "glossary" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    {{- else }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                    {{- end }}
+                </span>
+                <span class="sidebar-section-label">{{ .Name }}</span>
+                <span class="sidebar-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+            </button>
+
+            <ul class="sidebar-children">
+                {{/* Section index link */}}
+                <li>
+                    <a href="{{ .URL | relLangURL }}" class="{{ if eq $menu_item_url $page_url }}active{{ end }}">
+                        Overview
+                    </a>
+                </li>
+                {{- range $pages }}
+                {{- $is_page_active := eq $currentPage.RelPermalink .RelPermalink }}
+                <li>
+                    <a href="{{ .RelPermalink }}" class="{{ if $is_page_active }}active{{ end }}">
+                        {{ .Title }}
+                    </a>
+                </li>
+                {{- end }}
+            </ul>
+        </li>
+        {{- else }}
+        <li class="sidebar-section">
+            <a href="{{ .URL | relLangURL }}" class="sidebar-section-header{{ if $is_active }} active{{ end }}">
+                <span class="sidebar-section-icon">
+                    {{- if eq .Identifier "home" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    {{- else if eq .Identifier "glossary" }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    {{- else }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                    {{- end }}
+                </span>
+                <span class="sidebar-section-label">{{ .Name }}</span>
+            </a>
+        </li>
+        {{- end }}
+        {{- end }}
+    </ul>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>

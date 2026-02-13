@@ -1,0 +1,49 @@
+{{- define "main" }}
+<article class="post-single">
+  {{- if not (.Param "hideBreadcrumbs") }}
+  <nav aria-label="Breadcrumb">
+    <ol class="breadcrumbs">
+      <li><a href="{{ site.Home.RelPermalink }}">Docs</a></li>
+      {{- $parent := .Parent }}
+      {{- if and $parent (ne $parent .Site.Home) }}
+      <li><a href="{{ $parent.RelPermalink }}">{{ $parent.Title }}</a></li>
+      {{- end }}
+      <li><span class="current">{{ .Title }}</span></li>
+    </ol>
+  </nav>
+  {{- end }}
+
+  <header class="post-header">
+    <h1 class="post-title">
+      {{ .Title }}
+    </h1>
+    {{- if .Description }}
+    <p class="post-description">
+      {{ .Description }}
+    </p>
+    {{- end }}
+  </header>
+
+  {{- if (.Param "ShowToc") }}
+  {{- partial "toc.html" . }}
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content">
+    {{- $content := .Content }}
+    {{- /* Remove ALL H1 tags from content - they're duplicates of the page title */}}
+    {{- $content = $content | replaceRE `(?s)<h1[^>]*>.*?</h1>\s*` "" }}
+
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" $content -}}
+    {{- else }}{{ $content | safeHTML }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- if (.Param "ShowPostNavLinks") }}
+    {{- partial "post_nav_links.html" . }}
+    {{- end }}
+  </footer>
+</article>
+{{- end }}

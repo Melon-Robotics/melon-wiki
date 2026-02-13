@@ -1,0 +1,43 @@
+{{- define "main" }}
+
+{{- if .Content }}
+<div class="section-hero">
+  {{ .Content }}
+</div>
+{{- end }}
+
+{{- $pages := .Pages }}
+{{- if .IsHome }}
+  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- end }}
+
+{{- if gt (len $pages) 0 }}
+<div class="section-grid-header">
+  {{- if not .IsHome }}
+  <span class="section-grid-label">Pages in this section</span>
+  {{- else }}
+  <span class="section-grid-label">All pages</span>
+  {{- end }}
+  <span class="section-grid-count">{{ len $pages }}</span>
+</div>
+
+<ul class="section-card-list">
+  {{- range $pages }}
+  <li>
+    <a href="{{ .RelPermalink }}">
+      <div class="card-content">
+        <div class="card-title">{{ .Title }}</div>
+        {{- if .Description }}
+        <div class="card-description">{{ .Description }}</div>
+        {{- end }}
+      </div>
+      <span class="card-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- end }}
+
+{{- end }}

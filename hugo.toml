@@ -1,0 +1,117 @@
+baseURL = 'https://wiki.melon.org/'
+languageCode = 'en-us'
+title = 'Melon Wiki'
+theme = 'PaperMod'
+enableRobotsTXT = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[minify]
+  [minify.tdewolff]
+    [minify.tdewolff.html]
+      keepWhitespace = false
+
+[params]
+  description = "An open-source, authoritative knowledge base for commercial diving, subsea robotics, and autonomous maritime operations"
+  author = "Melon"
+  keywords = ["commercial diving", "subsea robotics", "autonomous systems", "ocean data", "maritime operations", "ROV", "AUV", "dive operations", "saturation diving", "subsea safety", "ALARP", "ocean data integrity", "swarm robotics", "simulation training"]
+
+  # PaperMod specific settings
+  env = "production"
+  title = "Melon Wiki"
+  defaultTheme = "auto"
+
+  [params.homeInfoParams]
+    Title = "Melon Wiki"
+    Content = "An authoritative knowledge base for commercial diving, subsea robotics, and autonomous maritime operations"
+
+  [params.assets]
+    favicon = ""
+    disableFingerprinting = false
+
+  [params.label]
+    text = "Melon Wiki"
+    icon = ""
+
+  [params.editPost]
+    URL = ""
+    Text = ""
+    appendFilePath = true
+
+  [params.share]
+    enable = false
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    keys = ["title", "permalink", "summary", "content"]
+
+  [params.toc]
+    auto = true
+    keepStatic = false
+    ordered = false
+
+  ShowToc = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowBreadCrumbs = true
+
+  [params.schema]
+    publisherType = "Organization"
+    sameAs = []
+
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "diving"
+    name = "Commercial Diving"
+    url = "/commercial-diving/"
+    weight = 2
+  [[menu.main]]
+    identifier = "robotics"
+    name = "Subsea Robotics"
+    url = "/subsea-robotics/"
+    weight = 3
+  [[menu.main]]
+    identifier = "data"
+    name = "Ocean Data & Trust"
+    url = "/ocean-data/"
+    weight = 4
+  [[menu.main]]
+    identifier = "safety"
+    name = "Safety & Compliance"
+    url = "/safety-compliance/"
+    weight = 5
+  [[menu.main]]
+    identifier = "swarm"
+    name = "Swarm Systems"
+    url = "/swarm-systems/"
+    weight = 6
+  [[menu.main]]
+    identifier = "simulation"
+    name = "Simulation & Training"
+    url = "/simulation-training/"
+    weight = 7
+  [[menu.main]]
+    identifier = "standards"
+    name = "Open Standards"
+    url = "/open-standards/"
+    weight = 8
+  [[menu.main]]
+    identifier = "glossary"
+    name = "Glossary"
+    url = "/glossary/"
+    weight = 9
