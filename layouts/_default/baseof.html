@@ -144,7 +144,7 @@
                         callback();
                     }
                 };
-                xhr.open('GET', '/index.json');
+                xhr.open('GET', '{{ "index.json" | absURL }}');
                 xhr.send();
             }
 
@@ -251,7 +251,7 @@
 
         // ── Sidebar Collapse/Expand ──
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.sidebar-section-header').forEach(function(btn) {
+            document.querySelectorAll('button.sidebar-section-header').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     var section = btn.closest('.sidebar-section');
