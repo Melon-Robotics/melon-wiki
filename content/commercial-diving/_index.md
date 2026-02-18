@@ -50,6 +50,7 @@ This section addresses:
 - [Saturation Diving Overview](/commercial-diving/saturation-overview/)
 - [Dive Planning & Risk Assessment](/commercial-diving/dive-planning/)
 - [USN Dive Tables](/commercial-diving/usn-dive-tables/) — Official U.S. Navy Diving Manual Revision 7 decompression tables
+- [No-Decompression Limits (Tables 9-7 & 2A-1)](/commercial-diving/usn-ndl-table/) — Air diving NDL with interactive lookup
 - [Decompression Theory (Operational)](/commercial-diving/decompression-theory/)
 - [Emergency Response Frameworks](/commercial-diving/emergency-frameworks/)
 - [Human Factors in Diving Operations](/commercial-diving/human-factors/)
