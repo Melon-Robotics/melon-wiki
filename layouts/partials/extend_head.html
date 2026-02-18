@@ -6,6 +6,11 @@
 <meta name="distribution" content="Global">
 <meta name="rating" content="General">
 
+{{/* Per-page keyword meta (supplements global keywords) */}}
+{{- if .Params.keywords }}
+<meta name="keywords" content="{{ delimit .Params.keywords ", " }}">
+{{- end }}
+
 {{/* DNS prefetch for external resources */}}
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -67,4 +72,90 @@
 {{- if .Parent }}
 <meta name="article:section" content="{{ .Parent.Title }}">
 {{- end }}
+{{- end }}
+
+{{/* TechArticle schema for authoritative reference pages */}}
+{{- if eq .Params.schema_type "tech-article" }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ .Description | jsonify }},
+  "url": "{{ .Permalink }}",
+  "inLanguage": "en-US",
+  "proficiencyLevel": "Expert",
+  "author": {
+    "@type": "Organization",
+    "name": {{ .Params.schema_author | default "Naval Sea Systems Command (NAVSEA)" | jsonify }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Melon Wiki",
+    "url": "{{ site.BaseURL }}"
+  },
+  {{- if .Params.schema_about }}
+  "about": [
+    {{- range $i, $topic := .Params.schema_about }}
+    {{- if $i }},{{ end }}
+    { "@type": "Thing", "name": {{ $topic | jsonify }} }
+    {{- end }}
+  ],
+  {{- end }}
+  {{- if .Params.keywords }}
+  "keywords": {{ delimit .Params.keywords ", " | jsonify }},
+  {{- end }}
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02" }}"
+}
+</script>
+{{- end }}
+
+{{/* Dataset schema for pages with structured table data */}}
+{{- if eq .Params.schema_type "dataset" }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": {{ .Title | jsonify }},
+  "description": {{ .Description | jsonify }},
+  "url": "{{ .Permalink }}",
+  "inLanguage": "en-US",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": {
+    "@type": "Organization",
+    "name": "Naval Sea Systems Command (NAVSEA)",
+    "url": "https://www.navsea.navy.mil/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Melon Wiki",
+    "url": "{{ site.BaseURL }}"
+  },
+  "datePublished": "{{ .Date.Format "2006-01-02" }}"
+}
+</script>
+{{- end }}
+
+{{/* FAQPage schema — populated from front matter faq array [[faq]] {q, a} */}}
+{{- if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{- range $i, $item := .Params.faq }}
+    {{- if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": {{ $item.q | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ $item.a | jsonify }}
+      }
+    }
+    {{- end }}
+  ]
+}
+</script>
 {{- end }}

@@ -1,0 +1,355 @@
+{{/* Interactive USN Table 9-7 & 9-8 NDL Lookup Tool */}}
+<div class="ndl-lookup" id="ndl-lookup">
+  <div class="ndl-lookup-header">
+    <div class="ndl-tabs" role="tablist">
+      <button class="ndl-tab active" role="tab" aria-selected="true" data-tab="single">Single Dive</button>
+      <button class="ndl-tab" role="tab" aria-selected="false" data-tab="repetitive">Repetitive Dive</button>
+    </div>
+  </div>
+
+  <!-- Single Dive: Table 9-7 -->
+  <div class="ndl-panel active" data-panel="single">
+    <p class="ndl-panel-desc">Enter depth and bottom time to find your no-decompression status and repetitive group (Table 9-7).</p>
+    <div class="ndl-row">
+      <div class="ndl-field">
+        <label for="ndl-depth">Depth (FSW)</label>
+        <select id="ndl-depth">
+          <option value="">Select…</option>
+          <option value="10">10</option><option value="15">15</option><option value="20">20</option>
+          <option value="25">25</option><option value="30">30</option><option value="35">35</option>
+          <option value="40">40</option><option value="45">45</option><option value="50">50</option>
+          <option value="55">55</option><option value="60">60</option><option value="70">70</option>
+          <option value="80">80</option><option value="90">90</option><option value="100">100</option>
+          <option value="110">110</option><option value="120">120</option><option value="130">130</option>
+          <option value="140">140</option><option value="150">150</option><option value="160">160</option>
+          <option value="170">170</option><option value="180">180</option><option value="190">190</option>
+        </select>
+      </div>
+      <div class="ndl-field">
+        <label for="ndl-time">Bottom Time (min)</label>
+        <input type="number" id="ndl-time" min="1" max="1200" placeholder="e.g. 45">
+      </div>
+      <button class="ndl-btn" id="ndl-calc-single">Look Up</button>
+    </div>
+    <div class="ndl-result" id="ndl-result-single"></div>
+  </div>
+
+  <!-- Repetitive Dive: Table 9-8 -->
+  <div class="ndl-panel" data-panel="repetitive">
+    <p class="ndl-panel-desc">Plan a second dive using Table 9-8. Enter your post-dive group, surface interval, and next dive depth.</p>
+    <div class="ndl-section-label">Step 1 — Surface interval credit (Table 9-8, Part 1)</div>
+    <div class="ndl-row">
+      <div class="ndl-field">
+        <label for="rep-prev-group">Post-Dive Group</label>
+        <select id="rep-prev-group">
+          <option value="">Select…</option>
+          <option>Z</option><option>O</option><option>N</option><option>M</option>
+          <option>L</option><option>K</option><option>J</option><option>I</option>
+          <option>H</option><option>G</option><option>F</option><option>E</option>
+          <option>D</option><option>C</option><option>B</option><option>A</option>
+        </select>
+      </div>
+      <div class="ndl-field">
+        <label for="rep-si-h">Surface Interval</label>
+        <div class="ndl-time-input">
+          <input type="number" id="rep-si-h" min="0" max="99" placeholder="h" style="width:56px">
+          <span>:</span>
+          <input type="number" id="rep-si-m" min="0" max="59" placeholder="mm" style="width:60px">
+        </div>
+      </div>
+      <div class="ndl-field">
+        <label for="rep-next-depth">Next Depth (FSW)</label>
+        <select id="rep-next-depth">
+          <option value="">Select…</option>
+          <option value="10">10</option><option value="15">15</option><option value="20">20</option>
+          <option value="25">25</option><option value="30">30</option><option value="35">35</option>
+          <option value="40">40</option><option value="45">45</option><option value="50">50</option>
+          <option value="55">55</option><option value="60">60</option><option value="70">70</option>
+          <option value="80">80</option><option value="90">90</option><option value="100">100</option>
+          <option value="110">110</option><option value="120">120</option><option value="130">130</option>
+          <option value="140">140</option><option value="150">150</option><option value="160">160</option>
+          <option value="170">170</option><option value="180">180</option><option value="190">190</option>
+        </select>
+      </div>
+      <button class="ndl-btn" id="ndl-calc-rep">Look Up</button>
+    </div>
+    <div class="ndl-result" id="ndl-result-rep"></div>
+  </div>
+
+  <p class="ndl-disclaimer">
+    <strong>Verify before operational use.</strong> These values are transcribed from USN Diving Manual Rev 7 (SS521-AG-PRO-010).
+    Cross-reference with the official NAVSEA publication before any dive. Transcription errors, however unlikely, can be fatal.
+  </p>
+</div>
+
+<script>
+(function() {
+  // ── Table 9-7: NDL + Repetitive Groups ──
+  // Groups are [letter, max_bottom_time]. 9999 = star (*) = highest achievable regardless of time.
+  var T97 = {
+    10:  { ndl: null, g: [['A',57],['B',101],['C',158],['D',245],['E',426],['F',9999]] },
+    15:  { ndl: null, g: [['A',36],['B',60],['C',88],['D',121],['E',163],['F',217],['G',297],['H',9999]] },
+    20:  { ndl: null, g: [['A',26],['B',43],['C',61],['D',82],['E',106],['F',133],['G',165],['H',205],['I',256],['J',330],['K',9999]] },
+    25:  { ndl: 1102, g: [['A',20],['B',33],['C',47],['D',62],['E',78],['F',97],['G',117],['H',140],['I',166],['J',198],['K',236],['L',285],['M',354],['N',469],['O',992],['Z',1102]] },
+    30:  { ndl: 371,  g: [['A',17],['B',27],['C',38],['D',50],['E',62],['F',76],['G',91],['H',107],['I',125],['J',145],['K',167],['L',193],['M',223],['N',260],['O',307],['Z',371]] },
+    35:  { ndl: 232,  g: [['A',14],['B',23],['C',32],['D',42],['E',52],['F',63],['G',74],['H',87],['I',100],['J',115],['K',131],['L',148],['M',168],['N',190],['O',215],['Z',232]] },
+    40:  { ndl: 163,  g: [['A',12],['B',20],['C',27],['D',36],['E',44],['F',53],['G',63],['H',73],['I',84],['J',95],['K',108],['L',121],['M',135],['N',151],['O',163]] },
+    45:  { ndl: 125,  g: [['A',11],['B',17],['C',24],['D',31],['E',39],['F',46],['G',55],['H',63],['I',72],['J',82],['K',92],['L',102],['M',114],['N',125]] },
+    50:  { ndl: 92,   g: [['A',9],['B',15],['C',21],['D',28],['E',34],['F',41],['G',48],['H',56],['I',63],['J',71],['K',80],['L',89],['M',92]] },
+    55:  { ndl: 74,   g: [['A',8],['B',14],['C',19],['D',25],['E',31],['F',37],['G',43],['H',50],['I',56],['J',63],['K',71],['L',74]] },
+    60:  { ndl: 63,   g: [['A',7],['B',12],['C',17],['D',22],['E',28],['F',33],['G',39],['H',45],['I',51],['J',57],['K',63]] },
+    70:  { ndl: 48,   g: [['A',6],['B',10],['C',14],['D',19],['E',23],['F',28],['G',32],['H',37],['I',42],['J',47],['K',48]] },
+    80:  { ndl: 39,   g: [['A',5],['B',9],['C',12],['D',16],['E',20],['F',24],['G',28],['H',32],['I',36],['J',39]] },
+    90:  { ndl: 33,   g: [['A',4],['B',7],['C',11],['D',14],['E',17],['F',21],['G',24],['H',28],['I',31],['J',33]] },
+    100: { ndl: 25,   g: [['A',4],['B',6],['C',9],['D',12],['E',15],['F',18],['G',21],['H',25]] },
+    110: { ndl: 20,   g: [['A',3],['B',6],['C',8],['D',11],['E',14],['F',16],['G',19],['H',20]] },
+    120: { ndl: 15,   g: [['A',3],['B',5],['C',7],['D',10],['E',12],['F',15]] },
+    130: { ndl: 12,   g: [['A',2],['B',4],['C',6],['D',9],['E',11],['F',12]] },
+    140: { ndl: 10,   g: [['A',2],['B',4],['C',6],['D',8],['E',10]] },
+    150: { ndl: 8,    g: [['B',3],['C',5],['D',7],['E',8]] },
+    160: { ndl: 7,    g: [['B',3],['C',5],['D',6],['E',7]] },
+    170: { ndl: 6,    g: [['C',4],['D',6]] },
+    180: { ndl: 6,    g: [['C',4],['D',5],['E',6]] },
+    190: { ndl: 5,    g: [['C',3],['D',5]] }
+  };
+
+  // ── Table 9-8 Part 1: Surface Interval Credit ──
+  // Fixed breakpoints in minutes for group transitions.
+  // Starting group determines which index in GROUPS you begin at.
+  // After SI, new group = startIndex + stepsDown.
+  var GROUPS = ['Z','O','N','M','L','K','J','I','H','G','F','E','D','C','B','A'];
+  var SI_BREAKS = [52,104,157,209,261,313,366,418,470,522,574,627,679,733,810]; // 15 thresholds
+  var NOT_REP = {Z:950,O:898,N:845,M:793,L:741,K:689,J:636,I:584,H:532,G:480,F:428,E:375,D:323,C:271,B:216,A:140};
+
+  // ── Table 9-8 Part 2: Residual Nitrogen Times ──
+  // Indexed by depth (row), values correspond to GROUPS order [Z,O,N,M,L,K,J,I,H,G,F,E,D,C,B,A]
+  // null = ** (cannot be determined)
+  var T98P2 = {
+    10: [null,null,null,null,null,null,null,null,null,null,null,427,246,159,101,58],
+    15: [null,null,null,null,null,null,null,null,450,298,218,164,122,89,61,37],
+    20: [null,null,null,null,null,462,331,257,206,166,134,106,83,62,44,27],
+    25: [null,null,470,354,286,237,198,167,141,118,98,79,63,48,34,21],
+    30: [372,308,261,224,194,168,146,126,108,92,77,63,51,39,28,18],
+    35: [245,216,191,169,149,132,116,101,88,75,64,53,43,33,24,15],
+    40: [188,169,152,136,122,109,97,85,74,64,55,45,37,29,21,13],
+    45: [154,140,127,115,104,93,83,73,64,56,48,40,32,25,18,12],
+    50: [131,120,109,99,90,81,73,65,57,49,42,35,29,23,17,11],
+    55: [114,105,96,88,80,72,65,58,51,44,38,32,26,20,15,10],
+    60: [101,93,86,79,72,65,58,52,46,40,35,29,24,19,14,9],
+    70: [83,77,71,65,59,54,49,44,39,34,29,25,20,16,12,8],
+    80: [70,65,60,55,51,46,42,38,33,29,25,22,18,14,10,7],
+    90: [61,57,52,48,44,41,37,33,29,26,22,19,16,12,9,6],
+    100:[54,50,47,43,40,36,33,30,26,23,20,17,14,11,8,5],
+    110:[48,45,42,39,36,33,30,27,24,21,18,16,13,10,8,5],
+    120:[44,41,38,35,32,30,27,24,22,19,17,14,12,9,7,5],
+    130:[40,37,35,32,30,27,25,22,20,18,15,13,11,9,6,4],
+    140:[37,34,32,30,27,25,23,21,19,16,14,12,10,8,6,4],
+    150:[34,32,30,28,26,23,21,19,17,15,13,11,9,8,6,4],
+    160:[32,30,28,26,24,22,20,18,16,14,13,11,9,7,5,4],
+    170:[30,28,26,24,22,21,19,17,15,14,12,10,8,7,5,3],
+    180:[28,26,25,23,21,19,18,16,14,13,11,10,8,6,5,3],
+    190:[26,25,23,22,20,18,17,15,14,12,11,9,8,6,5,3]
+  };
+
+  function lookupSingle(depth, bottomTime) {
+    var data = T97[depth];
+    if (!data) return null;
+    var ndl = data.ndl;
+    if (ndl !== null && bottomTime > ndl) {
+      return { status: 'deco', ndl: ndl };
+    }
+    for (var i = 0; i < data.g.length; i++) {
+      var group = data.g[i][0], maxTime = data.g[i][1];
+      if (bottomTime <= maxTime) {
+        return { status: 'nodeco', group: group, ndl: ndl, atStar: maxTime === 9999 };
+      }
+    }
+    return { status: 'deco', ndl: ndl };
+  }
+
+  function lookupSI(startGroup, siMin) {
+    var startIdx = GROUPS.indexOf(startGroup);
+    if (startIdx === -1) return null;
+    if (siMin < 10) return { status: 'invalid' };
+    var notRep = NOT_REP[startGroup];
+    if (siMin > notRep) return { status: 'not-rep' };
+    var steps = 0;
+    for (var i = 0; i < SI_BREAKS.length; i++) {
+      if (siMin > SI_BREAKS[i]) steps++;
+      else break;
+    }
+    var newIdx = Math.min(startIdx + steps, GROUPS.length - 1);
+    return { status: 'ok', newGroup: GROUPS[newIdx] };
+  }
+
+  function lookupRNT(group, depth) {
+    var row = T98P2[depth];
+    if (!row) return null;
+    var idx = GROUPS.indexOf(group);
+    if (idx === -1) return null;
+    return row[idx]; // null = **
+  }
+
+  function badge(text, type) {
+    return '<span class="ndl-badge ndl-badge-' + type + '">' + text + '</span>';
+  }
+
+  function renderSingle() {
+    var depth = parseInt(document.getElementById('ndl-depth').value, 10);
+    var time = parseInt(document.getElementById('ndl-time').value, 10);
+    var out = document.getElementById('ndl-result-single');
+    if (!depth || !time || time < 1) {
+      out.innerHTML = '<p class="ndl-error">Select a depth and enter a bottom time.</p>';
+      return;
+    }
+    var r = lookupSingle(depth, time);
+    if (!r) {
+      out.innerHTML = '<p class="ndl-error">Depth not in table.</p>';
+      return;
+    }
+    var ndlLabel = r.ndl === null ? 'Unlimited' : r.ndl + ' min';
+    if (r.status === 'deco') {
+      out.innerHTML =
+        '<div class="ndl-result-grid">' +
+          '<div class="ndl-result-card ndl-danger">' +
+            '<div class="ndl-result-label">Status</div>' +
+            '<div class="ndl-result-value">' + badge('Decompression Required', 'danger') + '</div>' +
+          '</div>' +
+          '<div class="ndl-result-card">' +
+            '<div class="ndl-result-label">No-Stop Limit at ' + depth + ' FSW</div>' +
+            '<div class="ndl-result-value">' + ndlLabel + '</div>' +
+          '</div>' +
+          '<div class="ndl-result-card">' +
+            '<div class="ndl-result-label">Bottom Time</div>' +
+            '<div class="ndl-result-value">' + time + ' min</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="ndl-note">Your bottom time of ' + time + ' min exceeds the NDL of ' + ndlLabel + ' at ' + depth + ' FSW. Use Table 9-9 (Air Decompression Table) to determine required stops.</p>';
+    } else {
+      var starNote = r.atStar ? ' (maximum group at this depth — any additional time stays at ' + r.group + ')' : '';
+      out.innerHTML =
+        '<div class="ndl-result-grid">' +
+          '<div class="ndl-result-card ndl-success">' +
+            '<div class="ndl-result-label">Status</div>' +
+            '<div class="ndl-result-value">' + badge('No Decompression', 'success') + '</div>' +
+          '</div>' +
+          '<div class="ndl-result-card">' +
+            '<div class="ndl-result-label">Repetitive Group</div>' +
+            '<div class="ndl-result-value ndl-group-letter">' + r.group + '</div>' +
+          '</div>' +
+          '<div class="ndl-result-card">' +
+            '<div class="ndl-result-label">No-Stop Limit at ' + depth + ' FSW</div>' +
+            '<div class="ndl-result-value">' + ndlLabel + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="ndl-note">After surfacing from ' + time + ' min at ' + depth + ' FSW, your repetitive group is <strong>' + r.group + '</strong>' + starNote + '. Use Table 9-8 to plan a repetitive dive.</p>';
+    }
+  }
+
+  function renderRep() {
+    var prevGroup = document.getElementById('rep-prev-group').value;
+    var siH = parseInt(document.getElementById('rep-si-h').value, 10) || 0;
+    var siM = parseInt(document.getElementById('rep-si-m').value, 10) || 0;
+    var nextDepth = parseInt(document.getElementById('rep-next-depth').value, 10);
+    var out = document.getElementById('ndl-result-rep');
+    if (!prevGroup || (!siH && !siM) || !nextDepth) {
+      out.innerHTML = '<p class="ndl-error">Fill in all fields to calculate repetitive dive data.</p>';
+      return;
+    }
+    var siTotal = siH * 60 + siM;
+    var siResult = lookupSI(prevGroup, siTotal);
+    if (!siResult) {
+      out.innerHTML = '<p class="ndl-error">Invalid input.</p>';
+      return;
+    }
+    if (siResult.status === 'invalid') {
+      out.innerHTML = '<p class="ndl-error">Minimum surface interval is 10 minutes.</p>';
+      return;
+    }
+    if (siResult.status === 'not-rep') {
+      out.innerHTML =
+        '<div class="ndl-result-grid">' +
+          '<div class="ndl-result-card ndl-success">' +
+            '<div class="ndl-result-label">Surface Interval Status</div>' +
+            '<div class="ndl-result-value">' + badge('Not Repetitive', 'success') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="ndl-note">Surface interval of ' + siH + 'h ' + siM + 'm from Group ' + prevGroup + ' exceeds the repetitive interval. Plan your next dive as a new single dive using Table 9-7.</p>';
+      return;
+    }
+    var newGroup = siResult.newGroup;
+    var rnt = lookupRNT(newGroup, nextDepth);
+    var ndlData = T97[nextDepth];
+    var ndlAtDepth = ndlData ? (ndlData.ndl === null ? 'Unlimited' : ndlData.ndl + ' min') : 'N/A';
+    var rntHtml, noteHtml;
+    if (rnt === null) {
+      rntHtml = '<div class="ndl-result-card ndl-danger">' +
+        '<div class="ndl-result-label">Residual Nitrogen Time at ' + nextDepth + ' FSW</div>' +
+        '<div class="ndl-result-value">' + badge('Cannot determine (see USN Table 9-8 note)', 'danger') + '</div>' +
+      '</div>';
+      noteHtml = '<p class="ndl-note">RNT cannot be determined from Table 9-8 for this combination. Consult the full USN Diving Manual Revision 7 for procedures.</p>';
+    } else if (nextDepth === 25 && (newGroup === 'Z' || newGroup === 'O')) {
+      rntHtml = '<div class="ndl-result-card ndl-warning">' +
+        '<div class="ndl-result-label">Residual Nitrogen Time at ' + nextDepth + ' FSW</div>' +
+        '<div class="ndl-result-value">' + badge('Use 30 FSW procedures (see † note)', 'warning') + '</div>' +
+      '</div>';
+      noteHtml = '<p class="ndl-note">† At 25 FSW for Groups Z and O, read down to 30 FSW repetitive dive depth and use those residual nitrogen times. Decompress using 30 FSW air decompression table.</p>';
+    } else {
+      var ndlAtDepthNum = ndlData ? ndlData.ndl : null;
+      var adjustedTime = ndlAtDepthNum !== null ? Math.min(rnt, ndlAtDepthNum) : rnt;
+      var maxNDL = ndlAtDepthNum === null ? 'Unlimited' : ndlAtDepthNum;
+      rntHtml = '<div class="ndl-result-card">' +
+        '<div class="ndl-result-label">Residual Nitrogen Time at ' + nextDepth + ' FSW</div>' +
+        '<div class="ndl-result-value">' + rnt + ' min</div>' +
+      '</div>' +
+      '<div class="ndl-result-card">' +
+        '<div class="ndl-result-label">NDL at ' + nextDepth + ' FSW</div>' +
+        '<div class="ndl-result-value">' + ndlAtDepth + '</div>' +
+      '</div>';
+      noteHtml = '<p class="ndl-note">Your RNT is <strong>' + rnt + ' min</strong> at ' + nextDepth + ' FSW. Add this to your planned bottom time to get your Equivalent Single Dive Time (ESDT). The NDL at ' + nextDepth + ' FSW is ' + ndlAtDepth + '. If your ESDT exceeds the NDL, use Table 9-9 for decompression stops.</p>';
+    }
+    out.innerHTML =
+      '<div class="ndl-result-grid">' +
+        '<div class="ndl-result-card">' +
+          '<div class="ndl-result-label">New Group After Surface Interval</div>' +
+          '<div class="ndl-result-value ndl-group-letter">' + newGroup + '</div>' +
+        '</div>' +
+        rntHtml +
+      '</div>' +
+      noteHtml;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Tabs
+    document.querySelectorAll('#ndl-lookup .ndl-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.dataset.tab;
+        document.querySelectorAll('#ndl-lookup .ndl-tab').forEach(function (t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('#ndl-lookup .ndl-panel').forEach(function (p) {
+          p.classList.remove('active');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        var panel = document.querySelector('#ndl-lookup [data-panel="' + target + '"]');
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    document.getElementById('ndl-calc-single').addEventListener('click', renderSingle);
+    document.getElementById('ndl-calc-rep').addEventListener('click', renderRep);
+
+    // Allow Enter key in inputs
+    ['ndl-depth', 'ndl-time'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', function (e) { if (e.key === 'Enter') renderSingle(); });
+    });
+    ['rep-prev-group', 'rep-si-h', 'rep-si-m', 'rep-next-depth'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', function (e) { if (e.key === 'Enter') renderRep(); });
+    });
+  });
+})();
+</script>

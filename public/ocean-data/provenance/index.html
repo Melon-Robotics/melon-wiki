@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,16 +9,16 @@
 <meta name="keywords" content="">
 <meta name="description" content="Tracking where data came from and who handled it throughout its lifecycle">
 <meta name="author" content="Melon">
-<link rel="canonical" href="https://wiki.melon.org/ocean-data/provenance/">
+<link rel="canonical" href="http://localhost:1313/ocean-data/provenance/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://wiki.melon.org/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://wiki.melon.org/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://wiki.melon.org/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://wiki.melon.org/apple-touch-icon.png">
-<link rel="mask-icon" href="https://wiki.melon.org/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://wiki.melon.org/ocean-data/provenance/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/ocean-data/provenance/">
 <noscript>
     <style>
         #theme-toggle,
@@ -79,6 +79,8 @@
 <meta name="rating" content="General">
 
 
+
+
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
@@ -88,7 +90,13 @@
 
 
 <meta name="article:section" content="Ocean Data &amp; Trust">
-<meta property="og:url" content="https://wiki.melon.org/ocean-data/provenance/">
+
+
+
+
+
+
+<meta property="og:url" content="http://localhost:1313/ocean-data/provenance/">
   <meta property="og:site_name" content="Melon Wiki">
   <meta property="og:title" content="Data Provenance & Chain-of-Custody">
   <meta property="og:description" content="Tracking where data came from and who handled it throughout its lifecycle">
@@ -111,13 +119,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Ocean Data \u0026 Trust",
-      "item": "https://wiki.melon.org/ocean-data/"
+      "item": "http://localhost:1313/ocean-data/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Data Provenance \u0026 Chain-of-Custody",
-      "item": "https://wiki.melon.org/ocean-data/provenance/"
+      "item": "http://localhost:1313/ocean-data/provenance/"
     }
   ]
 }
@@ -143,14 +151,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://wiki.melon.org/ocean-data/provenance/"
+    "@id": "http://localhost:1313/ocean-data/provenance/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Melon Wiki",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://wiki.melon.org/favicon.ico"
+      "url": "http://localhost:1313/favicon.ico"
     }
   }
 }
@@ -262,7 +270,7 @@
                 </li>
                 <li>
                     <a href="/commercial-diving/dive-logs/" class="">
-                        Dive Logs &amp; Operational Records
+                        Commercial Dive Logs &amp; Operational Records
                     </a>
                 </li>
                 <li>
@@ -278,6 +286,21 @@
                 <li>
                     <a href="/commercial-diving/surface-supplied/" class="">
                         Surface-Supplied Diving Systems
+                    </a>
+                </li>
+                <li>
+                    <a href="/commercial-diving/usn-air-dive-tables/" class="">
+                        USN Air Dive Tables — U.S. Navy Diving Manual Rev 7
+                    </a>
+                </li>
+                <li>
+                    <a href="/commercial-diving/usn-dive-tables/" class="">
+                        USN Dive Tables — U.S. Navy Diving Manual Revision 7
+                    </a>
+                </li>
+                <li>
+                    <a href="/commercial-diving/usn-heo2-dive-tables/" class="">
+                        USN Helium-Oxygen Dive Tables — U.S. Navy Diving Manual Rev 7
                     </a>
                 </li>
             </ul>
@@ -669,7 +692,7 @@
 
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://wiki.melon.org/">Melon Wiki</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">Melon Wiki</a></span> · 
 
     <span>
         Powered by
@@ -822,7 +845,7 @@
                         callback();
                     }
                 };
-                xhr.open('GET', '/index.json');
+                xhr.open('GET', 'http:\/\/localhost:1313\/index.json');
                 xhr.send();
             }
 
@@ -929,7 +952,7 @@
 
         
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.sidebar-section-header').forEach(function(btn) {
+            document.querySelectorAll('button.sidebar-section-header').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     var section = btn.closest('.sidebar-section');

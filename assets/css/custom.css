@@ -1918,3 +1918,532 @@ html[data-theme="dark"] .landing-hero-badge {
         padding: 48px 64px 72px 64px;
     }
 }
+
+/* ==========================================================================
+   NDL Lookup Tool
+   ========================================================================== */
+
+.ndl-lookup {
+    background: var(--mw-surface);
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-lg);
+    margin: 24px 0 32px 0;
+    overflow: hidden;
+}
+
+.ndl-lookup-header {
+    border-bottom: 1px solid var(--mw-border);
+    background: var(--mw-bg);
+}
+
+.ndl-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 16px;
+}
+
+.ndl-tab {
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--mw-text-secondary);
+    cursor: pointer;
+    font-family: var(--mw-font-sans);
+    transition: color 0.15s, border-color 0.15s;
+    margin-bottom: -1px;
+}
+
+.ndl-tab:hover { color: var(--mw-text); }
+.ndl-tab.active { color: var(--mw-primary); border-bottom-color: var(--mw-primary); }
+
+.ndl-panel { display: none; padding: 20px; }
+.ndl-panel.active { display: block; }
+
+.ndl-panel-desc {
+    font-size: 0.875rem;
+    color: var(--mw-text-secondary);
+    margin: 0 0 16px 0;
+}
+
+.ndl-section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--mw-text-tertiary);
+    margin: 0 0 10px 0;
+}
+
+.ndl-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 16px;
+}
+
+.ndl-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 120px;
+}
+
+.ndl-field label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--mw-text-secondary);
+}
+
+.ndl-field select,
+.ndl-field input[type="number"],
+.ndl-field input[type="text"] {
+    height: 36px;
+    padding: 0 10px;
+    background: var(--mw-bg);
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-md);
+    font-size: 0.875rem;
+    color: var(--mw-text);
+    font-family: var(--mw-font-sans);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+}
+
+.ndl-field select:focus,
+.ndl-field input:focus {
+    border-color: var(--mw-primary);
+    box-shadow: 0 0 0 3px var(--mw-primary-light);
+}
+
+.ndl-time-input {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ndl-time-input span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--mw-text-secondary);
+    line-height: 36px;
+}
+
+.ndl-btn {
+    height: 36px;
+    padding: 0 20px;
+    background: var(--mw-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--mw-radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--mw-font-sans);
+    transition: background 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-end;
+}
+
+.ndl-btn:hover { background: var(--mw-primary-hover); }
+
+.ndl-result {
+    margin-top: 16px;
+}
+
+.ndl-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.ndl-result-card {
+    background: var(--mw-bg);
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-md);
+    padding: 12px 16px;
+}
+
+.ndl-result-card.ndl-danger { border-color: var(--mw-danger-border); background: var(--mw-danger-bg); }
+.ndl-result-card.ndl-success { border-color: var(--mw-success-border); background: var(--mw-success-bg); }
+.ndl-result-card.ndl-warning { border-color: var(--mw-warning-border); background: var(--mw-warning-bg); }
+
+.ndl-result-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--mw-text-tertiary);
+    margin-bottom: 4px;
+}
+
+.ndl-result-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--mw-text);
+    font-family: var(--mw-font-mono);
+}
+
+.ndl-group-letter {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--mw-primary);
+    font-family: var(--mw-font-mono);
+    line-height: 1;
+}
+
+.ndl-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: var(--mw-font-sans);
+}
+
+.ndl-badge-danger { background: var(--mw-danger-bg); color: var(--mw-danger); border: 1px solid var(--mw-danger-border); }
+.ndl-badge-success { background: var(--mw-success-bg); color: var(--mw-success); border: 1px solid var(--mw-success-border); }
+.ndl-badge-warning { background: var(--mw-warning-bg); color: var(--mw-warning); border: 1px solid var(--mw-warning-border); }
+
+.ndl-note {
+    font-size: 0.8125rem;
+    color: var(--mw-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    padding: 10px 14px;
+    background: var(--mw-surface-2);
+    border-radius: var(--mw-radius-md);
+    border-left: 3px solid var(--mw-primary);
+}
+
+.ndl-error {
+    font-size: 0.875rem;
+    color: var(--mw-danger);
+    margin: 0;
+    padding: 10px 14px;
+    background: var(--mw-danger-bg);
+    border-radius: var(--mw-radius-md);
+}
+
+.ndl-disclaimer {
+    font-size: 0.75rem;
+    color: var(--mw-text-tertiary);
+    margin: 0;
+    padding: 12px 20px;
+    border-top: 1px solid var(--mw-border);
+    background: var(--mw-bg);
+    line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+    .ndl-row { gap: 8px; }
+    .ndl-field { min-width: 100px; }
+    .ndl-result-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ==========================================================================
+   PDF Download Bar (download-page shortcode)
+   ========================================================================== */
+
+.pdf-dl-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--mw-surface);
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-lg);
+    margin: 0 0 24px 0;
+    flex-wrap: wrap;
+}
+
+.pdf-dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 16px;
+    background: var(--mw-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--mw-radius-md);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--mw-font-sans);
+    transition: background 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pdf-dl-btn:hover { background: var(--mw-primary-hover); }
+
+.pdf-dl-hint {
+    font-size: 0.75rem;
+    color: var(--mw-text-tertiary);
+    font-family: var(--mw-font-sans);
+}
+
+/* ==========================================================================
+   Dive Log Form
+   ========================================================================== */
+
+.dlf-wrap {
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-lg);
+    overflow: hidden;
+    margin: 24px 0 32px 0;
+}
+
+.dlf-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--mw-surface);
+    border-bottom: 1px solid var(--mw-border);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.dlf-toolbar-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--mw-text);
+}
+
+.dlf-toolbar-actions { display: flex; gap: 8px; }
+
+.dlf-btn {
+    height: 32px;
+    padding: 0 16px;
+    border-radius: var(--mw-radius-md);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--mw-font-sans);
+    transition: all 0.15s;
+    border: 1px solid transparent;
+}
+
+.dlf-btn-primary { background: var(--mw-primary); color: #fff; border-color: var(--mw-primary); }
+.dlf-btn-primary:hover { background: var(--mw-primary-hover); }
+.dlf-btn-secondary { background: var(--mw-bg); color: var(--mw-text-secondary); border-color: var(--mw-border); }
+.dlf-btn-secondary:hover { border-color: var(--mw-border-strong); color: var(--mw-text); }
+
+.dlf-form {
+    padding: 24px;
+    background: var(--mw-bg);
+}
+
+.dlf-header-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.dlf-org-name { margin-bottom: 8px; }
+.dlf-form-meta { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--mw-text-secondary); }
+
+.dlf-title-block { text-align: right; }
+.dlf-doc-title {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--mw-text);
+}
+.dlf-doc-sub {
+    font-size: 0.75rem;
+    color: var(--mw-text-tertiary);
+    margin-top: 2px;
+}
+
+.dlf-section {
+    margin-bottom: 20px;
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-md);
+    overflow: hidden;
+}
+
+.dlf-section-title {
+    background: var(--mw-surface);
+    padding: 8px 14px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--mw-text-secondary);
+    border-bottom: 1px solid var(--mw-border);
+}
+
+.dlf-grid {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+}
+
+.dlf-grid-1 { grid-template-columns: 1fr; }
+.dlf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.dlf-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.dlf-grid-6 { grid-template-columns: repeat(6, 1fr); }
+
+.dlf-col-2 { grid-column: span 2; }
+
+.dlf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dlf-field label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--mw-text-tertiary);
+}
+
+.dlf-input {
+    height: 30px;
+    padding: 0 8px;
+    background: var(--mw-surface);
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-sm);
+    font-size: 0.8125rem;
+    color: var(--mw-text);
+    font-family: var(--mw-font-sans);
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.dlf-input:focus { border-color: var(--mw-primary); box-shadow: 0 0 0 2px var(--mw-primary-light); }
+.dlf-input.dlf-large { height: 34px; font-size: 0.9375rem; font-weight: 600; }
+.dlf-input.dlf-short { width: 120px; }
+.dlf-input.dlf-tiny { width: 48px; }
+
+.dlf-textarea {
+    padding: 8px;
+    background: var(--mw-surface);
+    border: 1px solid var(--mw-border);
+    border-radius: var(--mw-radius-sm);
+    font-size: 0.8125rem;
+    color: var(--mw-text);
+    font-family: var(--mw-font-sans);
+    width: 100%;
+    resize: vertical;
+    outline: none;
+    line-height: 1.5;
+    transition: border-color 0.15s;
+}
+
+.dlf-textarea:focus { border-color: var(--mw-primary); box-shadow: 0 0 0 2px var(--mw-primary-light); }
+
+.dlf-sig-line {
+    height: 40px;
+    border-bottom: 1px solid var(--mw-border-strong);
+    margin: 8px 0 4px 0;
+}
+
+.dlf-sig-meta { display: flex; gap: 8px; }
+.dlf-sig-meta .dlf-input { flex: 1; }
+
+.dlf-cert-block { padding: 8px; }
+.dlf-cert-text {
+    font-size: 0.6875rem;
+    color: var(--mw-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.dlf-footer-block {
+    margin-top: 16px;
+    padding: 12px 0 0 0;
+    border-top: 1px solid var(--mw-border);
+    font-size: 0.6875rem;
+    color: var(--mw-text-tertiary);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .dlf-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .dlf-grid-6 { grid-template-columns: repeat(3, 1fr); }
+    .dlf-grid-3 { grid-template-columns: 1fr; }
+    .dlf-col-2 { grid-column: span 1; }
+}
+
+@media (max-width: 480px) {
+    .dlf-grid-4,
+    .dlf-grid-6 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ==========================================================================
+   Print styles for Dive Log Form
+   ========================================================================== */
+
+@media print {
+    /* Hide site chrome — leave the content tree intact so the form is reachable */
+    .site-header,
+    #sidebar,
+    #sidebar-overlay,
+    #search-modal-overlay,
+    .toc-sidebar,
+    .toc,
+    .breadcrumbs,
+    .post-header,
+    .post-footer,
+    footer,
+    .dlf-toolbar { display: none !important; }
+
+    /* Strip layout offsets so the form fills the page */
+    .main        { margin-top: 0 !important; }
+    .content-wrapper { margin-left: 0 !important; }
+    .content-inner   { padding: 0 !important; display: block !important; }
+    .content         { padding: 8px !important; max-width: 100% !important; margin: 0 !important; }
+
+    /* Hide all post-content children EXCEPT the dive log form wrapper */
+    .post-content > *:not(#dive-log-form) { display: none !important; }
+
+    /* Form chrome */
+    .dlf-wrap { border: none !important; margin: 0 !important; }
+    .dlf-form { padding: 8px !important; }
+
+    /* Inputs — clean underline-only style for paper */
+    .dlf-input,
+    .dlf-textarea {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #999 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        color: #000 !important;
+        font-size: 0.75rem !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Section blocks — keep each together across pages */
+    .dlf-section { break-inside: avoid; border-color: #ccc !important; }
+    .dlf-section-title {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .dlf-field label { color: #555 !important; }
+    .dlf-doc-title   { color: #000 !important; }
+    .dlf-doc-sub     { color: #555 !important; }
+    .dlf-footer-block { color: #555 !important; }
+    .dlf-sig-line    { border-color: #000 !important; }
+}

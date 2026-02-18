@@ -1,0 +1,458 @@
+{{/* Printable commercial dive log entry — all IMCA/ADCI required fields */}}
+<div class="dlf-wrap" id="dive-log-form">
+  <div class="dlf-toolbar">
+    <span class="dlf-toolbar-title">Dive Log Entry</span>
+    <div class="dlf-toolbar-actions">
+      <button class="dlf-btn dlf-btn-secondary" id="dlf-clear">Clear</button>
+      <button class="dlf-btn dlf-btn-primary" id="dlf-pdf">Download PDF</button>
+    </div>
+  </div>
+
+  <div class="dlf-form" id="dlf-print-area">
+    <div class="dlf-header-block">
+      <div class="dlf-logo-area">
+        <div class="dlf-org-name"><input type="text" class="dlf-input dlf-large" placeholder="Company / Operator Name" data-label="Company"></div>
+        <div class="dlf-form-meta">
+          <span>Log #</span> <input type="text" class="dlf-input dlf-short" placeholder="e.g. 2024-0142" data-label="Log Number">
+          <span>Rev</span> <input type="text" class="dlf-input dlf-tiny" placeholder="0" data-label="Revision">
+        </div>
+      </div>
+      <div class="dlf-title-block">
+        <div class="dlf-doc-title">COMMERCIAL DIVE LOG</div>
+        <div class="dlf-doc-sub">U.S. Navy / IMCA / ADCI Compliant Record</div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">1. OPERATION DETAILS</div>
+      <div class="dlf-grid dlf-grid-4">
+        <div class="dlf-field dlf-col-2">
+          <label>Vessel / Platform</label>
+          <input type="text" class="dlf-input" placeholder="Vessel name or platform ID" data-label="Vessel">
+        </div>
+        <div class="dlf-field">
+          <label>Contract / Project</label>
+          <input type="text" class="dlf-input" placeholder="Project reference" data-label="Project">
+        </div>
+        <div class="dlf-field">
+          <label>Work Site / Block</label>
+          <input type="text" class="dlf-input" placeholder="Location reference" data-label="Work Site">
+        </div>
+        <div class="dlf-field">
+          <label>Date</label>
+          <input type="date" class="dlf-input" data-label="Date">
+        </div>
+        <div class="dlf-field">
+          <label>Latitude</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 29°15.32'N" data-label="Latitude">
+        </div>
+        <div class="dlf-field">
+          <label>Longitude</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 088°22.10'W" data-label="Longitude">
+        </div>
+        <div class="dlf-field">
+          <label>Water Depth (FSW)</label>
+          <input type="text" class="dlf-input" placeholder="ft sea water" data-label="Water Depth">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">2. DIVE TEAM</div>
+      <div class="dlf-grid dlf-grid-4">
+        <div class="dlf-field dlf-col-2">
+          <label>Dive Supervisor</label>
+          <input type="text" class="dlf-input" placeholder="Name" data-label="Supervisor">
+        </div>
+        <div class="dlf-field">
+          <label>Supervisor Cert #</label>
+          <input type="text" class="dlf-input" placeholder="ADCI / IMCA cert" data-label="Supervisor Cert">
+        </div>
+        <div class="dlf-field">
+          <label>Supervisor Exp (yrs)</label>
+          <input type="text" class="dlf-input" placeholder="Years" data-label="Supervisor Exp">
+        </div>
+        <div class="dlf-field dlf-col-2">
+          <label>Working Diver</label>
+          <input type="text" class="dlf-input" placeholder="Name" data-label="Working Diver">
+        </div>
+        <div class="dlf-field">
+          <label>Diver Cert #</label>
+          <input type="text" class="dlf-input" placeholder="ADCI / IMCA cert" data-label="Diver Cert">
+        </div>
+        <div class="dlf-field">
+          <label>Medical Expiry</label>
+          <input type="date" class="dlf-input" data-label="Medical Expiry">
+        </div>
+        <div class="dlf-field dlf-col-2">
+          <label>Standby Diver</label>
+          <input type="text" class="dlf-input" placeholder="Name" data-label="Standby Diver">
+        </div>
+        <div class="dlf-field">
+          <label>Tender</label>
+          <input type="text" class="dlf-input" placeholder="Name" data-label="Tender">
+        </div>
+        <div class="dlf-field">
+          <label>Diving Physician</label>
+          <input type="text" class="dlf-input" placeholder="DMO on standby" data-label="DMO">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">3. DIVE PROFILE</div>
+      <div class="dlf-grid dlf-grid-6">
+        <div class="dlf-field">
+          <label>Dive #</label>
+          <input type="text" class="dlf-input" placeholder="1" data-label="Dive Number">
+        </div>
+        <div class="dlf-field">
+          <label>Left Surface</label>
+          <input type="time" class="dlf-input" data-label="Left Surface">
+        </div>
+        <div class="dlf-field">
+          <label>Reached Depth</label>
+          <input type="time" class="dlf-input" data-label="Reached Depth">
+        </div>
+        <div class="dlf-field">
+          <label>Max Depth (FSW)</label>
+          <input type="number" class="dlf-input" placeholder="FSW" data-label="Max Depth">
+        </div>
+        <div class="dlf-field">
+          <label>Left Bottom</label>
+          <input type="time" class="dlf-input" data-label="Left Bottom">
+        </div>
+        <div class="dlf-field">
+          <label>Surfaced</label>
+          <input type="time" class="dlf-input" data-label="Surfaced">
+        </div>
+        <div class="dlf-field">
+          <label>Bottom Time (min)</label>
+          <input type="number" class="dlf-input" placeholder="min" data-label="Bottom Time">
+        </div>
+        <div class="dlf-field">
+          <label>Descent Rate (FPM)</label>
+          <input type="number" class="dlf-input" placeholder="75" data-label="Descent Rate">
+        </div>
+        <div class="dlf-field">
+          <label>Ascent Rate (FPM)</label>
+          <input type="number" class="dlf-input" placeholder="30" data-label="Ascent Rate">
+        </div>
+        <div class="dlf-field">
+          <label>Pre-Dive Rep Group</label>
+          <input type="text" class="dlf-input" placeholder="A–Z or N/A" data-label="Pre-Dive Group">
+        </div>
+        <div class="dlf-field">
+          <label>Post-Dive Rep Group</label>
+          <input type="text" class="dlf-input" placeholder="A–Z" data-label="Post-Dive Group">
+        </div>
+        <div class="dlf-field">
+          <label>Prior Surface Int.</label>
+          <input type="text" class="dlf-input" placeholder="h:mm or N/A" data-label="Surface Interval">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">4. DECOMPRESSION</div>
+      <div class="dlf-grid dlf-grid-4">
+        <div class="dlf-field">
+          <label>Table Used</label>
+          <input type="text" class="dlf-input" placeholder="e.g. USN Rev 7 Table 9-9" data-label="Table Used">
+        </div>
+        <div class="dlf-field">
+          <label>Schedule</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 130/20 SurDO2" data-label="Schedule">
+        </div>
+        <div class="dlf-field">
+          <label>In-Water O2 Stop (ft/min)</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 20ft / 20min" data-label="O2 Stop">
+        </div>
+        <div class="dlf-field">
+          <label>Chamber O2 Periods</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 2 × 30 min" data-label="Chamber O2">
+        </div>
+        <div class="dlf-field dlf-col-2">
+          <label>Decompression Deviations / Extensions</label>
+          <input type="text" class="dlf-input" placeholder="None, or describe deviation and authorization" data-label="Deco Deviations">
+        </div>
+        <div class="dlf-field">
+          <label>Deco Completed</label>
+          <input type="time" class="dlf-input" data-label="Deco Complete Time">
+        </div>
+        <div class="dlf-field">
+          <label>Post-Dive O2 Monitoring (hrs)</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 1 hr" data-label="Post-Dive O2 Mon">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">5. BREATHING GAS</div>
+      <div class="dlf-grid dlf-grid-4">
+        <div class="dlf-field">
+          <label>Gas Mix</label>
+          <input type="text" class="dlf-input" placeholder="e.g. Air / 32% Nitrox / HeO2" data-label="Gas Mix">
+        </div>
+        <div class="dlf-field">
+          <label>O2 % (Analyzed)</label>
+          <input type="text" class="dlf-input" placeholder="%" data-label="O2 Analyzed">
+        </div>
+        <div class="dlf-field">
+          <label>He % (Analyzed)</label>
+          <input type="text" class="dlf-input" placeholder="% or N/A" data-label="He Analyzed">
+        </div>
+        <div class="dlf-field">
+          <label>Cylinder Start PSI</label>
+          <input type="number" class="dlf-input" placeholder="psi" data-label="Start PSI">
+        </div>
+        <div class="dlf-field">
+          <label>Cylinder End PSI</label>
+          <input type="number" class="dlf-input" placeholder="psi" data-label="End PSI">
+        </div>
+        <div class="dlf-field">
+          <label>Compressor Hours (start)</label>
+          <input type="text" class="dlf-input" placeholder="hours" data-label="Compressor Hours">
+        </div>
+        <div class="dlf-field">
+          <label>CO Filter Last Changed</label>
+          <input type="date" class="dlf-input" data-label="CO Filter Date">
+        </div>
+        <div class="dlf-field">
+          <label>Air Quality Test (date)</label>
+          <input type="date" class="dlf-input" data-label="Air Quality Test">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">6. ENVIRONMENTAL CONDITIONS</div>
+      <div class="dlf-grid dlf-grid-4">
+        <div class="dlf-field">
+          <label>Visibility (ft)</label>
+          <input type="text" class="dlf-input" placeholder="ft" data-label="Visibility">
+        </div>
+        <div class="dlf-field">
+          <label>Current (kts / direction)</label>
+          <input type="text" class="dlf-input" placeholder="e.g. 0.3 kts / S" data-label="Current">
+        </div>
+        <div class="dlf-field">
+          <label>Sea State (Beaufort)</label>
+          <input type="text" class="dlf-input" placeholder="0–9" data-label="Sea State">
+        </div>
+        <div class="dlf-field">
+          <label>Water Temp (°F / °C)</label>
+          <input type="text" class="dlf-input" placeholder="°F / °C" data-label="Water Temp">
+        </div>
+        <div class="dlf-field">
+          <label>Tide State</label>
+          <input type="text" class="dlf-input" placeholder="Flood / Slack / Ebb" data-label="Tide State">
+        </div>
+        <div class="dlf-field">
+          <label>Wave Height (ft)</label>
+          <input type="text" class="dlf-input" placeholder="ft" data-label="Wave Height">
+        </div>
+        <div class="dlf-field">
+          <label>Air Temp (°F)</label>
+          <input type="text" class="dlf-input" placeholder="°F" data-label="Air Temp">
+        </div>
+        <div class="dlf-field">
+          <label>Hazardous Materials?</label>
+          <input type="text" class="dlf-input" placeholder="None / describe" data-label="Hazmat">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">7. WORK PERFORMED</div>
+      <div class="dlf-grid dlf-grid-1">
+        <div class="dlf-field">
+          <label>Task Description</label>
+          <textarea class="dlf-textarea" rows="3" placeholder="Describe work performed, structures accessed, tools used, findings…" data-label="Task Description"></textarea>
+        </div>
+        <div class="dlf-field">
+          <label>Equipment Used</label>
+          <textarea class="dlf-textarea" rows="2" placeholder="List diving equipment, tools, lifting gear, cutting equipment…" data-label="Equipment Used"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section">
+      <div class="dlf-section-title">8. INCIDENTS, ANOMALIES & NEAR-MISSES</div>
+      <div class="dlf-grid dlf-grid-1">
+        <div class="dlf-field">
+          <label>Incidents / Near-Misses</label>
+          <textarea class="dlf-textarea" rows="3" placeholder="None, or describe incident: what happened, when, who was involved, immediate response, follow-up required…" data-label="Incidents"></textarea>
+        </div>
+      </div>
+      <div class="dlf-grid dlf-grid-4">
+        <div class="dlf-field">
+          <label>DCS Signs / Symptoms?</label>
+          <input type="text" class="dlf-input" placeholder="None / describe" data-label="DCS">
+        </div>
+        <div class="dlf-field">
+          <label>Chamber Treatment?</label>
+          <input type="text" class="dlf-input" placeholder="No / Table 5 / Table 6 / other" data-label="Chamber Tx">
+        </div>
+        <div class="dlf-field">
+          <label>Equipment Failure?</label>
+          <input type="text" class="dlf-input" placeholder="None / describe" data-label="Equip Failure">
+        </div>
+        <div class="dlf-field">
+          <label>Safety Stop Taken?</label>
+          <input type="text" class="dlf-input" placeholder="Yes / No" data-label="Safety Stop">
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-section dlf-section-sigs">
+      <div class="dlf-section-title">9. CERTIFICATION & SIGNATURES</div>
+      <div class="dlf-grid dlf-grid-3">
+        <div class="dlf-field">
+          <label>Working Diver Signature</label>
+          <div class="dlf-sig-line"></div>
+          <div class="dlf-sig-meta">
+            <input type="text" class="dlf-input" placeholder="Printed name">
+            <input type="date" class="dlf-input">
+          </div>
+        </div>
+        <div class="dlf-field">
+          <label>Dive Supervisor Signature</label>
+          <div class="dlf-sig-line"></div>
+          <div class="dlf-sig-meta">
+            <input type="text" class="dlf-input" placeholder="Printed name">
+            <input type="date" class="dlf-input">
+          </div>
+        </div>
+        <div class="dlf-field">
+          <label>Supervisor Certification</label>
+          <div class="dlf-cert-block">
+            <p class="dlf-cert-text">I certify that this dive was conducted in accordance with applicable regulations, the diving safety manual, and the procedures contained herein. All information is accurate and complete to the best of my knowledge.</p>
+            <input type="text" class="dlf-input" placeholder="Cert # / Qualification">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dlf-footer-block">
+      <p>Retain for minimum 5 years (IMCA) / per applicable regulations. Incident records: retain indefinitely.</p>
+      <p>Reference: IMCA M 103, ADCI Consensus Standards, USN Diving Manual Rev 7 (SS521-AG-PRO-010)</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    var pdfBtn  = document.getElementById('dlf-pdf');
+    var clearBtn = document.getElementById('dlf-clear');
+
+    if (pdfBtn) {
+      pdfBtn.addEventListener('click', function () {
+        // Snapshot live field values before cloning
+        var liveInputs = document.querySelectorAll('#dlf-print-area input, #dlf-print-area textarea');
+        var values = [];
+        liveInputs.forEach(function (el) { values.push(el.value); });
+
+        var formHTML = document.getElementById('dlf-print-area').innerHTML;
+
+        // Build a self-contained print document
+        var printDoc = [
+          '<!DOCTYPE html>',
+          '<html>',
+          '<head>',
+          '<meta charset="utf-8">',
+          '<title>Commercial Dive Log</title>',
+          '<style>',
+          '  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }',
+          '  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;',
+          '         font-size: 0.75rem; color: #111; background: #fff; padding: 16px; }',
+          '  /* Hide placeholder text — empty fields should be blank */',
+          '  input::placeholder, textarea::placeholder { color: transparent !important; }',
+          '  .dlf-header-block { display: flex; justify-content: space-between; align-items: flex-start;',
+          '                       margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }',
+          '  .dlf-title-block { text-align: right; }',
+          '  .dlf-doc-title { font-size: 1rem; font-weight: 800; letter-spacing: 0.05em; }',
+          '  .dlf-doc-sub { font-size: 0.65rem; color: #555; margin-top: 2px; }',
+          '  .dlf-form-meta { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #444; }',
+          '  .dlf-section { margin-bottom: 12px; border: 1px solid #bbb; border-radius: 4px; overflow: hidden;',
+          '                  break-inside: avoid; }',
+          '  .dlf-section-title { background: #eee; padding: 5px 10px; font-size: 0.6rem; font-weight: 700;',
+          '                        text-transform: uppercase; letter-spacing: 0.07em; color: #333;',
+          '                        border-bottom: 1px solid #bbb; }',
+          '  .dlf-grid { display: grid; gap: 8px; padding: 10px; }',
+          '  .dlf-grid-1 { grid-template-columns: 1fr; }',
+          '  .dlf-grid-3 { grid-template-columns: repeat(3,1fr); }',
+          '  .dlf-grid-4 { grid-template-columns: repeat(4,1fr); }',
+          '  .dlf-grid-6 { grid-template-columns: repeat(6,1fr); }',
+          '  .dlf-col-2 { grid-column: span 2; }',
+          '  .dlf-field { display: flex; flex-direction: column; gap: 2px; }',
+          '  .dlf-field label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase;',
+          '                      letter-spacing: 0.05em; color: #666; }',
+          '  .dlf-input { height: 22px; padding: 0 4px; background: transparent; border: none;',
+          '               border-bottom: 1px solid #888; font-size: 0.75rem; color: #111;',
+          '               font-family: inherit; width: 100%; }',
+          '  .dlf-input.dlf-large { height: 26px; font-size: 0.85rem; font-weight: 600; }',
+          '  .dlf-input.dlf-short { width: 100px; }',
+          '  .dlf-input.dlf-tiny  { width: 44px; }',
+          '  .dlf-textarea { padding: 4px; background: transparent; border: none;',
+          '                   border-bottom: 1px solid #888; font-size: 0.75rem; color: #111;',
+          '                   font-family: inherit; width: 100%; resize: none; }',
+          '  .dlf-section-sigs .dlf-grid { grid-template-columns: repeat(3,1fr); }',
+          '  .dlf-sig-line { height: 36px; border-bottom: 1px solid #000; margin: 6px 0 3px; }',
+          '  .dlf-sig-meta { display: flex; gap: 6px; }',
+          '  .dlf-sig-meta .dlf-input { flex: 1; }',
+          '  .dlf-cert-block { padding: 4px; }',
+          '  .dlf-cert-text { font-size: 0.6rem; color: #555; line-height: 1.4; margin-bottom: 6px; font-style: italic; }',
+          '  .dlf-footer-block { margin-top: 12px; padding-top: 8px; border-top: 1px solid #ccc;',
+          '                       font-size: 0.6rem; color: #666; line-height: 1.5; }',
+          '  .dlf-org-name { margin-bottom: 6px; }',
+          '  @media print {',
+          '    body { padding: 8px; }',
+          '    .dlf-section { break-inside: avoid; }',
+          '  }',
+          '</style>',
+          '</head>',
+          '<body>',
+          formHTML,
+          '</body>',
+          '</html>'
+        ].join('\n');
+
+        var win = window.open('', '_blank', 'width=900,height=700,scrollbars=yes');
+        if (!win) {
+          // Pop-up blocked — fall back to page print
+          window.print();
+          return;
+        }
+
+        win.document.open();
+        win.document.write(printDoc);
+        win.document.close();
+
+        // Stamp the live field values into the new window's DOM
+        var newInputs = win.document.querySelectorAll('input, textarea');
+        var liveInputs = document.querySelectorAll('#dlf-print-area input, #dlf-print-area textarea');
+        liveInputs.forEach(function (el, i) {
+          if (newInputs[i]) newInputs[i].value = el.value;
+        });
+
+        // Give the browser a moment to finish rendering before triggering print
+        win.setTimeout(function () {
+          win.focus();
+          win.print();
+        }, 400);
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (!confirm('Clear all fields?')) return;
+        document.querySelectorAll('#dive-log-form input, #dive-log-form textarea').forEach(function (el) {
+          el.value = '';
+        });
+      });
+    }
+  });
+})();
+</script>

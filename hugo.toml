@@ -20,7 +20,7 @@ enableRobotsTXT = true
 [params]
   description = "An open-source, authoritative knowledge base for commercial diving, subsea robotics, and autonomous maritime operations"
   author = "Melon"
-  keywords = ["commercial diving", "subsea robotics", "autonomous systems", "ocean data", "maritime operations", "ROV", "AUV", "dive operations", "saturation diving", "subsea safety", "ALARP", "ocean data integrity", "swarm robotics", "simulation training"]
+  keywords = ["commercial diving", "USN dive tables", "navy dive tables", "no decompression limits", "commercial dive logs", "surface supplied diving", "subsea robotics", "autonomous systems", "ocean data", "maritime operations", "ROV", "AUV", "dive operations", "saturation diving", "subsea safety", "ALARP", "ocean data integrity", "swarm robotics", "simulation training", "IMCA diving", "ADCI diving standards", "helium oxygen diving", "USN diving manual"]
 
   # PaperMod specific settings
   env = "production"
