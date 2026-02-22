@@ -474,22 +474,10 @@ header .site-title:hover {
 .sidebar-section-header {
     display: flex;
     align-items: center;
-    width: 100%;
-    padding: 8px 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: var(--mw-font-sans);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--mw-text);
-    text-align: left;
-    gap: 8px;
-    border-radius: var(--mw-radius-md);
     margin: 0 8px;
-    width: calc(100% - 16px);
-    transition: background 0.15s var(--mw-ease), color 0.15s var(--mw-ease);
+    border-radius: var(--mw-radius-md);
     position: relative;
+    transition: background 0.15s var(--mw-ease);
 }
 
 .sidebar-section-header:hover {
@@ -497,7 +485,6 @@ header .site-title:hover {
 }
 
 .sidebar-section-header.active {
-    color: var(--mw-primary);
     background: var(--mw-primary-light);
 }
 
@@ -510,6 +497,53 @@ header .site-title:hover {
     width: 2px;
     background: var(--mw-primary);
     border-radius: 1px;
+}
+
+/* Navigable link: icon + label */
+.sidebar-section-link {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    padding: 8px 4px 8px 16px;
+    gap: 8px;
+    font-family: var(--mw-font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--mw-text);
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
+
+.sidebar-section-link:hover {
+    color: var(--mw-primary);
+}
+
+.sidebar-section-header.active .sidebar-section-link {
+    color: var(--mw-primary);
+}
+
+/* Toggle button: chevron only */
+.sidebar-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 4px;
+    border-radius: var(--mw-radius-sm);
+    color: var(--mw-text-tertiary);
+    transition: color 0.15s var(--mw-ease), background 0.15s var(--mw-ease);
+}
+
+.sidebar-section-toggle:hover {
+    color: var(--mw-primary);
+    background: var(--mw-primary-light);
 }
 
 .sidebar-section-icon {
@@ -534,8 +568,6 @@ header .site-title:hover {
 .sidebar-section-chevron {
     display: flex;
     align-items: center;
-    color: var(--mw-text-tertiary);
-    flex-shrink: 0;
     transition: transform 0.2s var(--mw-ease);
 }
 

@@ -251,12 +251,13 @@
 
         // ── Sidebar Collapse/Expand ──
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('button.sidebar-section-header').forEach(function(btn) {
+            document.querySelectorAll('.sidebar-section-toggle').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     var section = btn.closest('.sidebar-section');
                     if (section) {
-                        section.classList.toggle('expanded');
+                        var expanded = section.classList.toggle('expanded');
+                        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
                     }
                 });
             });
