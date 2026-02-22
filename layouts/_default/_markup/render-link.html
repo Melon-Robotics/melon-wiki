@@ -1,0 +1,15 @@
+{{- $dest := .Destination -}}
+{{- $isExternal := or (strings.HasPrefix $dest "http://") (strings.HasPrefix $dest "https://") -}}
+{{- $isAnchor := strings.HasPrefix $dest "#" -}}
+{{- $href := $dest -}}
+{{- if not (or $isExternal $isAnchor) -}}
+  {{/*
+    Strip the leading "/" so that absURL resolves against the full baseURL path
+    (including any subdirectory, e.g. /melon-wiki/) rather than the domain root.
+    e.g. "/commercial-diving/" → absURL "commercial-diving/"
+         → "https://melon-robotics.github.io/melon-wiki/commercial-diving/"
+  */}}
+  {{- $path := strings.TrimPrefix "/" $dest -}}
+  {{- $href = $path | absURL -}}
+{{- end -}}
+<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $isExternal }} rel="noopener noreferrer" target="_blank"{{ end }}>{{ .Text | safeHTML }}</a>
