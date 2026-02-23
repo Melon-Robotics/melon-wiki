@@ -4,13 +4,10 @@
         {{- range site.Menus.main }}
         {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | relLangURL }}
         {{- $page_url := $currentPage.RelPermalink }}
-        {{- $section := site.GetPage .URL }}
-        {{- $is_active := or (eq $menu_item_url $page_url) (and $section (hasPrefix $page_url $section.RelPermalink) (ne $menu_item_url ("/" | relLangURL))) }}
-        {{- $pages := slice }}
-        {{- if $section }}
-            {{- $pages = where $section.Pages "Kind" "page" | first 20 }}
-        {{- end }}
+        {{- $sectionSlug := path.Base (strings.TrimSuffix "/" .URL) }}
+        {{- $pages := where site.RegularPages ".Section" "eq" $sectionSlug | first 20 }}
         {{- $has_children := gt (len $pages) 0 }}
+        {{- $is_active := or (eq $menu_item_url $page_url) (and $has_children (eq $currentPage.Section $sectionSlug)) }}
 
         {{- if $has_children }}
         <li class="sidebar-section{{ if $is_active }} expanded{{ end }}">
