@@ -480,6 +480,12 @@ header .site-title:hover {
     transition: background 0.15s var(--mw-ease);
 }
 
+/* Home / Glossary: standalone link (no children), needs its own padding + gap */
+a.sidebar-section-header {
+    gap: 8px;
+    padding: 8px 4px 8px 16px;
+}
+
 .sidebar-section-header:hover {
     background: var(--mw-surface-2);
 }
